@@ -21,7 +21,11 @@ public class VFile {
     }
     
     public String[] list() {
-        return vfs.list(path);
+        try {
+            return vfs.list(path);
+        } catch(IOException ioe) {
+            return new String[0];
+        }
     }
     
     public boolean supportsRandomAccess() {

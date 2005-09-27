@@ -30,8 +30,21 @@ public class StringUtils {
         return zpad(value, length, true);
     }
 
+    public static String zpad(long value, int length) {
+        return zpad(value, length, true);
+    }
+
     public static String zpad(int value, int length, boolean leftpad) {
         String v = Integer.toString(value);
+        return zpad(v, length, leftpad);
+    }
+    
+    public static String zpad(long value, int length, boolean leftpad) {
+        String v = Long.toString(value);
+        return zpad(v, length, leftpad);
+    }
+    
+    public static String zpad(String v, int length, boolean leftpad) {
         if(v.length() >= length) {
             return v;
         }

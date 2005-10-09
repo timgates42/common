@@ -10,7 +10,6 @@
   <property name="dist_install"  location="../lib"/>
   <property name="lib"  location="lib"/>
   <property name="exifjar" value="exif.jar"/>
-  <property name="do_compile15" value="false"/>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -24,24 +23,15 @@
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
 
-    <javac srcdir="${src}" destdir="${build}" classpath="${lib}/${exifjar}" debug="true" source="1.4">
+    <javac srcdir="${src}" destdir="${build}" classpath="${lib}/${exifjar}" debug="true" source="1.5">
         <exclude name="com/tim/store/*.java"/>
     </javac>
     
     <mkdir dir="${build}/META-INF"/>
-    <manifest file="${build}/META-INF/MANIFEST.MF">
-    </manifest>
+    <manifest file="${build}/META-INF/MANIFEST.MF"/>
     
   </target>
   
-  <target name="compile15" depends="init" if="do_compile15">
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}" classpath="${lib}/${exifjar}" debug="true" source="1.5">
-        <include name="com/tim/store/*.java"/>
-    </javac>
-    
-  </target>
-
   <target name="dist" depends="compile"
         description="generate the distribution" >
     <!-- Create the distribution directory -->

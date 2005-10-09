@@ -8,8 +8,9 @@ import com.tim.lang.StringUtils;
 
 public class Logging {
     
-    public static void clearLoggingConfig() {
+    public static void clearLoggingConfig() {                
         Logger root = Logger.getLogger("");
+        root.setLevel(java.util.logging.Level.OFF);
         
         // Remove old handlers
         Handler[] oldhandlers = root.getHandlers();
@@ -35,15 +36,18 @@ public class Logging {
         handler.setFormatter(new FlatlineFormatter());
         handler.setLevel(Level.ALL);
         root.addHandler(handler);
-        
         hideSunLogging();
     }
-        
-    public static void hideSunLogging() {
-        Logger sunlogger = Logger.getLogger("sun.rmi.loader");
-        sunlogger.setLevel(Level.WARNING);
-    }
     
+    private static final String[] HIDE = new String[] {"sun","java","javax"};
+    
+    public static void hideSunLogging() {
+        for(String name : HIDE) {
+            Logger sunlogger = Logger.getLogger(name);
+            sunlogger.setLevel(Level.WARNING);
+        }
+    }
+
     public static final class FlatlineFormatter extends java.util.logging.Formatter {
         public String format(LogRecord record) {
             Calendar cal = new GregorianCalendar();

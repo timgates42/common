@@ -10,6 +10,7 @@
   <property name="dist_install"  location="../lib"/>
   <property name="lib"  location="lib"/>
   <property name="exifjar" value="exif.jar"/>
+  <property name="jaramikojar" value="jaramiko.jar"/>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -17,13 +18,14 @@
     <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
     <copy file="${baselib}/${exifjar}" todir="${lib}"/>
+    <copy file="${baselib}/${jaramikojar}" todir="${lib}"/>
   </target>
 
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
 
-    <javac srcdir="${src}" destdir="${build}" classpath="${lib}/${exifjar}" debug="true" source="1.5">
+    <javac srcdir="${src}" destdir="${build}" classpath="${lib}/${exifjar};${lib}/${jaramikojar}" debug="true" source="1.5">
         <exclude name="com/tim/store/*.java"/>
     </javac>
     

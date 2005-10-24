@@ -14,6 +14,10 @@ public class SSH {
     
     private static final int TIMEOUT = 15000;
 
+    public static final Channel openClientEncryption(Socket connection, File basedir, String appname) throws IOException {
+        return openClientEncryption(connection, basedir, null, null, appname, null);
+    }
+    
     public static final Channel openClientEncryption(Socket connection, File basedir, File public_host_key, File private_auth_key, String appname, String username) throws IOException {
         if(username == null) {
             username = appname;

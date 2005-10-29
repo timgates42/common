@@ -22,7 +22,7 @@ public class SSH {
         if(username == null) {
             username = appname;
         }
-        Transport t = openClientEncryptionTransport(connection, basedir, public_host_key, private_auth_key, username);
+        ClientTransport t = openClientEncryptionTransport(connection, basedir, public_host_key, private_auth_key, username);
         Channel chan = t.openChannel(appname, null, TIMEOUT);
         if(chan == null) {
             throw new SSHException("Failed to open channel on connection.");
@@ -30,14 +30,14 @@ public class SSH {
         return chan;
     }
     
-    public static final Transport openClientEncryptionTransport(Socket connection, File basedir, File public_host_key, File private_auth_key, String username) throws IOException {
+    public static final ClientTransport openClientEncryptionTransport(Socket connection, File basedir, File public_host_key, File private_auth_key, String username) throws IOException {
         if(basedir != null) {
             public_host_key = new File(basedir, PUBLIC_HOST_KEY_FILENAME);
             private_auth_key = new File(basedir, PRIVATE_AUTH_KEY_FILENAME);
         }
         PKey host_key = openPublicKeyFile(public_host_key);
         PKey auth_key = PKey.readPrivateKeyFromStream(new FileInputStream(private_auth_key), null);
-        Transport t = new Transport(connection);
+        ClientTransport t = new ClientTransport(connection);
         String[] secondary_authentication = t.authPrivateKey(username, auth_key, TIMEOUT);
         if(secondary_authentication != null && secondary_authentication.length > 0) {
             throw new SSHException("Secondary authentication required.");
@@ -136,10 +136,10 @@ public class SSH {
         }
         PKey host_key = PKey.readPrivateKeyFromStream(new FileInputStream(private_host_key), null);
         PKey auth_key = openPublicKeyFile(public_auth_key);
-        Transport t = new Transport(connection);
+        ServerTransport t = new ServerTransport(connection);
         t.addServerKey(host_key);
         SSHServerSettings server = new SSHServerSettings(auth_key, appname);
-        t.startServer(server, TIMEOUT);
+        t.start(server, TIMEOUT);
         if(!t.isAuthenticated()) {
             throw new SSHException("Authentication Failed.");
         }

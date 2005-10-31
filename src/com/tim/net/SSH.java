@@ -38,13 +38,14 @@ public class SSH {
         PKey host_key = openPublicKeyFile(public_host_key);
         PKey auth_key = PKey.readPrivateKeyFromStream(new FileInputStream(private_auth_key), null);
         ClientTransport t = new ClientTransport(connection);
+        t.start(host_key, TIMEOUT);
         String[] secondary_authentication = t.authPrivateKey(username, auth_key, TIMEOUT);
         if(secondary_authentication != null && secondary_authentication.length > 0) {
             throw new SSHException("Secondary authentication required.");
         }
-        if(!t.getRemoteServerKey().equals(host_key)) {
+        /*if(!t.getRemoteServerKey().equals(host_key)) {
             throw new SSHException("Unexpected host key, possible man in the middle attack.");
-        }
+        }*/
         if(!t.isAuthenticated()) {
             throw new SSHException("Authentication Failed.");
         }

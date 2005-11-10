@@ -12,7 +12,7 @@ public class SSH {
     private static final String PRIVATE_AUTH_KEY_FILENAME = "auth_key.priv";
     private static final String PUBLIC_AUTH_KEY_FILENAME = "auth_key.pub";
     
-    private static final int TIMEOUT = 15000;
+    private static final int TIMEOUT = 90000;
 
     public static final Channel openClientEncryption(Socket connection, File basedir, String appname) throws IOException {
         return openClientEncryption(connection, basedir, null, null, appname, null);

@@ -227,6 +227,10 @@ public class UImage {
         }
         return new_image;
     }
+    
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
 
 	public void save( File output_file ) throws IOException {
         assert(output_file != null);

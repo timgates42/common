@@ -250,6 +250,11 @@ public class UImage {
         imageout.flush();
 		output.close();
     }
+
+	public void setImage(BufferedImage image) {
+            this.image = image;
+        }
+
     
 	public BufferedImage saveImage() {
         try {
